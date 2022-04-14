@@ -179,7 +179,7 @@ class _TranslatorPageState extends State<TranslatorPage> {
                                     size: 15,
                                   ),
                                   Text(
-                                    'Paste from Clipboard',
+                                    'Paste from clipboard',
                                     style: TextStyle(
                                         color: Colors.black.withOpacity(0.5),
                                         fontSize: 16),
