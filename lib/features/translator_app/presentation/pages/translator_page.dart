@@ -70,15 +70,15 @@ class _TranslatorPageState extends State<TranslatorPage> {
                             decoration: InputDecoration(
                               hintText: 'English',
                               contentPadding: const EdgeInsets.only(left: 10),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 10),
+                                    color: Colors.purple, width: 2.0),
                               ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 10),
+                                    color: Colors.purple, width: 2.0),
                               ),
                             ),
                           ),
@@ -101,15 +101,15 @@ class _TranslatorPageState extends State<TranslatorPage> {
                             decoration: InputDecoration(
                               hintText: 'English',
                               contentPadding: const EdgeInsets.only(left: 10),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 10),
+                                    color: Colors.purple, width: 2.0),
                               ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 10),
+                                    color: Colors.purple, width: 2.0),
                               ),
                             ),
                           ),
@@ -234,9 +234,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
                               // color: Colors.black,
                               child: const Text(
                                 'Translating...',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
                               ),
                             ),
                           ),
