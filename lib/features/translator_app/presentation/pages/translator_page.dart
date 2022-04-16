@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:textfield_search/textfield_search.dart';
 
 class TranslatorPage extends StatefulWidget {
   const TranslatorPage({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
   // final String assetName = 'assets/logo.svg';
   final Widget svg =
       SvgPicture.asset('assets/images/logo.svg', semanticsLabel: 'Acme Logo');
+      static const dummyList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +100,13 @@ class _TranslatorPageState extends State<TranslatorPage> {
                         SizedBox(
                           height: 30,
                           width: 170,
-                          child: TextField(
+                          child: TextFieldSearch(
+                            initialList: dummyList,
+                            minStringLength: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              side: const BorderSide(color: Colors.grey)
+                            ),
                             decoration: InputDecoration(
                               hintText: 'English',
                               contentPadding: const EdgeInsets.only(left: 10),
@@ -112,6 +121,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
                                     color: Colors.purple, width: 2.0),
                               ),
                             ),
+                            controller: _textEditingController,
+                            label: '',
                           ),
                         ),
                       ],
