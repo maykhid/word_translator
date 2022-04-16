@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:word_translator/features/translator_app/presentation/pages/translator_page.dart';
+import 'features/translator_app/presentation/pages/translator_page.dart';
 
 void main() {
   runApp(const MyApp());
