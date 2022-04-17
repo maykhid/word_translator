@@ -15,7 +15,7 @@ class TranslatorRepositoryImpl implements TranslatorRepository {
   TranslatorRepositoryImpl({required this.remoteDataSource, required this.networkInfo});
 
   @override
-  Future<Either<Failure, Translation>>? getTranslatedText(String? text) {
+  Future<Either<Failure, TranslationResult>>? getTranslatedText(String? text) {
     // TODO: implement getTranslatedText
     throw UnimplementedError();
   }

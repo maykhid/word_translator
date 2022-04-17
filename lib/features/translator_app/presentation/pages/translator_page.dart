@@ -258,7 +258,7 @@ class _TranslatorPageState extends State<TranslatorPage> {
                           width: MediaQuery.of(context).size.width,
                           decoration: ShapeDecoration(
                             color: Colors.grey.withOpacity(0.1),
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                           ),
                           child: Center(
                             child: FaIcon(

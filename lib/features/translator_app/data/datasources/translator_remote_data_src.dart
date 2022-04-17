@@ -1,4 +1,3 @@
-import '../../domain/entities/translator.dart';
 import '../models/translator_model.dart';
 
 abstract class TranslatorRemoteDataSource {
