@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:textfield_search/textfield_search.dart';
 
 class TranslatorPage extends StatefulWidget {
   const TranslatorPage({Key? key}) : super(key: key);
@@ -12,12 +14,14 @@ class _TranslatorPageState extends State<TranslatorPage> {
   // final String assetName = 'assets/logo.svg';
   final Widget svg =
       SvgPicture.asset('assets/images/logo.svg', semanticsLabel: 'Acme Logo');
+      static const dummyList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SizedBox.expand(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -61,17 +65,64 @@ class _TranslatorPageState extends State<TranslatorPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // first lang box
                         SizedBox(
-                          height: 50,
-                          width: 150,
+                          height: 30,
+                          width: 170,
                           child: TextField(
                             decoration: InputDecoration(
                               hintText: 'English',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  borderSide:
-                                      const BorderSide(color: Colors.purple)),
+                              contentPadding: const EdgeInsets.only(left: 10),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(90),
+                                borderSide: const BorderSide(
+                                    color: Colors.purple, width: 2.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(90),
+                                borderSide: const BorderSide(
+                                    color: Colors.purple, width: 2.0),
+                              ),
                             ),
+                          ),
+                        ),
+
+                        // icon arrows
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          child: FaIcon(
+                            FontAwesomeIcons.arrowRightArrowLeft,
+                            size: 18,
+                          ),
+                        ),
+
+                        // second lang box
+                        SizedBox(
+                          height: 30,
+                          width: 170,
+                          child: TextFieldSearch(
+                            initialList: dummyList,
+                            minStringLength: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              side: const BorderSide(color: Colors.grey)
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'English',
+                              contentPadding: const EdgeInsets.only(left: 10),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(90),
+                                borderSide: const BorderSide(
+                                    color: Colors.purple, width: 2.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(90),
+                                borderSide: const BorderSide(
+                                    color: Colors.purple, width: 2.0),
+                              ),
+                            ),
+                            controller: _textEditingController,
+                            label: '',
                           ),
                         ),
                       ],
@@ -80,11 +131,90 @@ class _TranslatorPageState extends State<TranslatorPage> {
 
                   // text-box
                   Container(
+                    padding: const EdgeInsets.all(22),
                     height: 200,
                     width: MediaQuery.of(context).size.width * 0.9,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // text field
+                            Scrollbar(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                reverse: true,
+                                child: SizedBox(
+                                  height: 110,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.70,
+                                  // color: Colors.black,
+                                  child: const TextField(
+                                    maxLines: 100,
+                                    decoration: InputDecoration(
+                                      hintText: 'Enter text here',
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(left: 15),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // paste from keyboard
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              height: 35,
+                              width: MediaQuery.of(context).size.width * 0.48,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.keyboard,
+                                    color: Colors.black.withOpacity(0.3),
+                                    size: 15,
+                                  ),
+                                  Text(
+                                    'Paste from clipboard',
+                                    style: TextStyle(
+                                        color: Colors.black.withOpacity(0.5),
+                                        fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // mic
+                        SizedBox(
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            icon: Icon(
+                              Icons.mic_none_outlined,
+                              color: Colors.grey.withOpacity(0.5),
+                              size: 30,
+                            ),
+                            onPressed: null,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 
@@ -95,9 +225,50 @@ class _TranslatorPageState extends State<TranslatorPage> {
                   Container(
                     height: 200,
                     width: MediaQuery.of(context).size.width * 0.9,
+                    padding: const EdgeInsets.all(22),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // translated text
+                        Scrollbar(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            reverse: true,
+                            child: SizedBox(
+                              height: 110,
+                              width: MediaQuery.of(context).size.width * 0.70,
+                              // color: Colors.black,
+                              child: const Text(
+                                'Translating...',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Container(
+                          // padding: const EdgeInsets.symmetric(horizontal: 10),
+                          height: 35,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: ShapeDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            shape: CircleBorder(),
+                          ),
+                          child: Center(
+                            child: FaIcon(
+                              FontAwesomeIcons.copy,
+                              color: Colors.black.withOpacity(0.3),
+                              size: 15,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
