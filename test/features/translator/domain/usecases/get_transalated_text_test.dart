@@ -17,7 +17,7 @@ void main() {
   });
 
   const String tText = 'Hello';
-  final tTranslatedText = Translations(
+  final tTranslatedText = Translation(
     text: 'Hallo',
     to: 'de',
   );

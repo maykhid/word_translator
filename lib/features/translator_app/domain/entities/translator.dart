@@ -1,41 +1,22 @@
-class Translator {
-  List<Translations>? translations;
+// Here lies the object entity for translation
 
-  Translator({this.translations});
+import 'package:equatable/equatable.dart';
 
-  Translator.fromJson(Map<String, dynamic> json) {
-    if (json['translations'] != null) {
-      translations = <Translations>[];
-      json['translations'].forEach((v) {
-        translations!.add(Translations.fromJson(v));
-      });
-    }
-  }
+class TranslationResult extends Equatable{
+  final List<Translation>? translations;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (translations != null) {
-      data['translations'] = translations!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  const TranslationResult({this.translations});
+
+  @override
+  List<Object?> get props => [translations];
 }
 
-class Translations {
-  String? text;
-  String? to;
+class Translation extends Equatable{
+  final String? text;
+  final String? to;
 
-  Translations({this.text, this.to});
+  const Translation({this.text, this.to});
 
-  Translations.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
-    to = json['to'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['text'] = text;
-    data['to'] = to;
-    return data;
-  }
+  @override
+  List<Object?> get props => [text, to];
 }
