@@ -1,15 +1,30 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/failures.dart';
+import '../../../../core/usecases/usecase.dart';
 import '../entities/translator.dart';
 import '../repositories/translator_repository.dart';
 
-class GetTranslatedText {
+/// This class is responsible for getting translated text from the repository
+
+class GetTranslatedText implements UseCase<Translations, Params> {
   final TranslatorRepository translatorRepository;
 
   GetTranslatedText(this.translatorRepository);
 
-  Future<Either<Failure, Translations>?> execute({required String text}) async {
-    return await translatorRepository.getTranslatedText(text);
+  // call makes it possible to call this usecase by just using the instance of this class e.g [usecase]
+  @override
+  Future<Either<Failure, Translations>?> call(Params params) async {
+    return await translatorRepository.getTranslatedText(params.text);
   }
+}
+
+class Params extends Equatable {
+  final String? text;
+
+  const Params({this.text});
+
+  @override
+  List<Object?> get props => [text];
 }

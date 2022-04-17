@@ -30,7 +30,7 @@ void main() {
           .thenAnswer((_) async => Right(tTranslatedText));
 
       // act
-      final result = await usecase.execute(text: tText);
+      final result = await usecase(const Params(text: tText));
 
       // assert
       expect(result, Right(tTranslatedText));
