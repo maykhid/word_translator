@@ -55,8 +55,8 @@ void main() {
         text: tText,
         to: 'en',
       );
-      const TranslatorResultModel tTranslatorResultModel =
-          TranslatorResultModel(
+      const TranslationResultModel tTranslatorResultModel =
+          TranslationResultModel(
         translations: [tTranslatorModel],
       );
       const TranslationResult tTranslatorResult = tTranslatorResultModel;

@@ -14,10 +14,10 @@ void main() {
 
   final List<TranslationModel> translations = [translatorModel];
 
-  final translatorResult = TranslatorResultModel(translations: translations);
+  final translatorResult = TranslationResultModel(translations: translations);
 
   test(
-    'should be a subclass of Translations entity',
+    'should be a subclass of $Translation entity',
     () async {
       // assert
       expect(translatorModel, isA<Translation>());
@@ -25,7 +25,7 @@ void main() {
   );
 
   test(
-    'should be a subclass of Translator entity',
+    'should be a subclass of $TranslationResult entity',
     () async {
       // assert
       expect(translatorResult, isA<TranslationResult>());
@@ -43,7 +43,7 @@ void main() {
               json.decode(fixture('translation.json'));
 
           // act
-          final result = TranslatorResultModel.fromJson(jsonMap);
+          final result = TranslationResultModel.fromJson(jsonMap);
 
           // assert
           expect(result, translatorResult);

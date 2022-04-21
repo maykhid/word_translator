@@ -16,13 +16,13 @@ class TranslationModel extends Translation {
   }
 }
 
-class TranslatorResultModel extends TranslationResult {
-  const TranslatorResultModel({
+class TranslationResultModel extends TranslationResult {
+  const TranslationResultModel({
     required List<TranslationModel> translations,
   }) : super(translations: translations);
 
-  factory TranslatorResultModel.fromJson(List<dynamic> json) {
-    return TranslatorResultModel(
+  factory TranslationResultModel.fromJson(List<dynamic> json) {
+    return TranslationResultModel(
       translations: (json[0]['translations'] as List<dynamic>)
           .map((e) => TranslationModel.fromJson(e as Map<String, dynamic>))
           .toList(),

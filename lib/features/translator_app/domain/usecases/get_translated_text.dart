@@ -13,7 +13,7 @@ class GetTranslatedText implements UseCase<TranslationResult?, Params> {
 
   GetTranslatedText(this.translatorRepository);
 
-  // call makes it possible to call this usecase by just using the instance of this class e.g [usecase]
+  /// [call] makes it possible to call this usecase by just using the instance of this class e.g [usecase]
   @override
   Future<Either<Failure, TranslationResult?>?> call(Params params) async {
     return await translatorRepository.getTranslatedText(params.text);
