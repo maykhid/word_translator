@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:word_translator/core/error/exceptions.dart';
 import 'package:word_translator/features/translator_app/data/datasources/translator_remote_data_src.dart';
-import 'package:word_translator/features/translator_app/data/models/translate_body_model.dart';
+import 'package:word_translator/features/translator_app/data/models/translator_body_model.dart';
 import 'package:word_translator/features/translator_app/data/models/translator_model.dart';
 import 'package:word_translator/secrets.dart';
 
@@ -50,7 +50,7 @@ void main() {
     'getTranslatedText',
     () {
       const tText = 'Hello';
-      const tTranslateBody = TranslateBodyModel(text: tText);
+      const tTranslateBody = TranslatorBodyModel(text: tText);
       final tTranslationResultModel = TranslationResultModel.fromJson(
         json.decode(
           fixture('translation.json'),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../secrets.dart';
-import '../models/translate_body_model.dart';
+import '../models/translator_body_model.dart';
 import '../models/translator_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +15,7 @@ abstract class TranslatorRemoteDataSource {
 
 class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
   final http.Client client;
-  late TranslateBodyModel? translateBodyModel;
+  late TranslatorBodyModel? translateBodyModel;
 
   TranslatorRemoteDataSourceImpl({required this.client});
 
@@ -27,7 +27,7 @@ class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
 
   @override
   Future<TranslationResultModel>? getTranslatedText(String? text) async {
-    translateBodyModel = TranslateBodyModel(text: text);
+    translateBodyModel = TranslatorBodyModel(text: text);
     final response = await client.post(
       Uri.https(
         'api.cognitive.microsofttranslator.com',
