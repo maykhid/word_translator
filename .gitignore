@@ -30,6 +30,7 @@
 .pub-cache/
 .pub/
 /build/
+/lib/secrets.dart
 
 # Exclude mock files
 *.mocks.dart
