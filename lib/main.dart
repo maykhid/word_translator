@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dependency_injector.dart' as di;
 
 import 'features/translator_app/presentation/pages/translator_page.dart';
 
-void main() {
+void main() async {
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -16,11 +18,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        
         primarySwatch: Colors.blue,
       ),
       home: const TranslatorPage(),
     );
   }
 }
-
