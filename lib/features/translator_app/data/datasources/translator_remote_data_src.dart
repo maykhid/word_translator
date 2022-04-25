@@ -34,15 +34,14 @@ class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
         '/translate',
         {'api-version': '3.0', 'from': 'en', 'to': 'de'},
       ),
-      body: translateBodyModel!.toJson(),
+      body: jsonEncode([translateBodyModel!.toJson()]),
       headers: requestHeaders,
     );
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return TranslationResultModel.fromJson(json.decode(response.body));
     } else {
       throw ServerException();
     }
-   
   }
 }

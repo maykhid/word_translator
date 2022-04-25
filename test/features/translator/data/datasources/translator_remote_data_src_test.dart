@@ -78,7 +78,7 @@ void main() {
                 '/translate',
                 {'api-version': '3.0', 'from': 'en', 'to': 'de'},
               ),
-              body: tTranslateBody.toJson(),
+              body: jsonEncode([tTranslateBody.toJson()]),
               headers: requestHeaders,
             ),
           );
