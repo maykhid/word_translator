@@ -10,7 +10,8 @@ import 'package:word_translator/features/translator_app/data/models/translator_b
 import 'package:word_translator/features/translator_app/data/models/translator_model.dart';
 import 'package:word_translator/secrets.dart';
 
-import '../../../../fixtures/fixture_reader.dart';
+// ignore: avoid_relative_lib_imports
+import '../../../../../lib/core/util/fixture_reader.dart';
 import 'translator_remote_data_src_test.mocks.dart';
 
 @GenerateMocks([http.Client])

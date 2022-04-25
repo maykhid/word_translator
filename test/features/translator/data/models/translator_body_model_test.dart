@@ -4,7 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:word_translator/features/translator_app/data/models/translator_body_model.dart';
 import 'package:word_translator/features/translator_app/domain/entities/translate_body.dart';
 
-import '../../../../fixtures/fixture_reader.dart';
+// ignore: avoid_relative_lib_imports
+import '../../../../../lib/core/util/fixture_reader.dart';
 
 void main() {
   const translatorBodyModel = TranslatorBodyModel(text: "Hello world! This is henry speaking");
