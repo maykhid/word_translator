@@ -41,7 +41,7 @@ void main() {
         () async {
           // arrange
           final List<dynamic> jsonMap =
-              json.decode(fixture('translation.json'));
+              json.decode(fixtureTest('translation.json'));
 
           // act
           final result = TranslationResultModel.fromJson(jsonMap);
@@ -56,7 +56,7 @@ void main() {
         () async {
           // arrange
           final List<dynamic> jsonMap =
-              json.decode(fixture('translation.json'));
+              json.decode(fixtureTest('translation.json'));
           // act
           final result =
               TranslationModel.fromJson(jsonMap[0]['translations'][0]);

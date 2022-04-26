@@ -31,7 +31,7 @@ void main() {
       headers: anyNamed('headers'),
       body: anyNamed('body'),
     )).thenAnswer((_) async => http.Response(
-          fixture('translation.json'),
+          fixtureTest('translation.json'),
           200,
         ));
   }
@@ -54,7 +54,7 @@ void main() {
       const tTranslateBody = TranslatorBodyModel(text: tText);
       final tTranslationResultModel = TranslationResultModel.fromJson(
         json.decode(
-          fixture('translation.json'),
+          fixtureTest('translation.json'),
         ),
       );
 

@@ -22,7 +22,7 @@ void main() {
         'should return a valid model when JSON is passed',
         () {
           // arrange
-          final List<dynamic> jsonMap = json.decode(fixture('text_body.json'));
+          final List<dynamic> jsonMap = json.decode(fixtureTest('text_body.json'));
           // act
           final result = TranslatorBodyModel.fromJson(jsonMap);
           // assert
