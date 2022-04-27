@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:word_translator/features/translator_app/domain/entities/translator.dart';
 
-import '../../domain/usecases/get_translated_text.dart';
+import '../../../domain/usecases/get_translated_text.dart';
 
 part 'translator_event.dart';
 part 'translator_state.dart';

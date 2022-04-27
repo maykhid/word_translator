@@ -7,7 +7,7 @@ import 'package:word_translator/core/error/failures.dart';
 import 'package:word_translator/features/translator_app/data/models/translator_model.dart';
 import 'package:word_translator/features/translator_app/domain/entities/translator.dart';
 import 'package:word_translator/features/translator_app/domain/usecases/get_translated_text.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc.dart';
+import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
 
 import 'translator_bloc_test.mocks.dart';
 

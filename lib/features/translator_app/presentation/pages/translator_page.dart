@@ -9,7 +9,7 @@ import 'package:word_translator/dependency_injector.dart';
 import '../../../../core/util/fixture_reader.dart';
 import '../../data/models/languages_model.dart';
 import '../../domain/entities/languages.dart';
-import '../bloc/translator_bloc.dart';
+import '../bloc/translator_bloc/translator_bloc.dart';
 import '../widgets/widgets.dart';
 
 class TranslatorPage extends StatefulWidget {
