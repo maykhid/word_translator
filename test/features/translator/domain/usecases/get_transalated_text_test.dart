@@ -17,6 +17,8 @@ void main() {
   });
 
   const String tText = 'Hello';
+  const String tTo = 'de';
+  const String tFrom = 'en';
   const tTranslatedText = Translation(
     text: 'Hallo',
     to: 'de',
@@ -29,15 +31,15 @@ void main() {
     'should get translated text from repository',
     () async {
       // arrange
-      when(mockTranslatorRepository.getTranslatedText(any))
+      when(mockTranslatorRepository.getTranslatedText(any, any, any))
           .thenAnswer((_) async => const Right(tTranslatedTextResult));
 
       // act
-      final result = await usecase(const Params(text: tText));
+      final result = await usecase(const Params(text: tText, to: tTo, from: tFrom));
 
       // assert
       expect(result, const Right(tTranslatedTextResult));
-      verify(mockTranslatorRepository.getTranslatedText(tText));
+      verify(mockTranslatorRepository.getTranslatedText(tText, tFrom, tTo));
       verifyNoMoreInteractions(mockTranslatorRepository);
     },
   );

@@ -713,8 +713,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: list-container-fix
-      resolved-ref: "44edaf505b33781ae53a7a9641c181f5d61dfc2c"
+      ref: code_contraption
+      resolved-ref: "0873e030560d0134153d4bedeee84e53b0e8466f"
       url: "https://github.com/maykhid/flutter_textfield_search.git"
     source: git
     version: "0.9.2"

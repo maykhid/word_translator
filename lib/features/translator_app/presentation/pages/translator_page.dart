@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:textfield_search/textfield_search.dart';
 import 'package:word_translator/dependency_injector.dart';
 
+import '../../../../core/util/fixture_reader.dart';
+import '../../data/models/languages_model.dart';
+import '../../domain/entities/languages.dart';
 import '../bloc/translator_bloc.dart';
 import '../widgets/widgets.dart';
 
@@ -19,19 +23,24 @@ class _TranslatorPageState extends State<TranslatorPage> {
   // final String assetName = 'assets/logo.svg';
   final Widget svg =
       SvgPicture.asset('assets/images/logo.svg', semanticsLabel: 'Acme Logo');
-  static const dummyList = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6',
-    'Item 7',
-    'Item 8',
-    'Item 9',
-    'Item 10'
-  ];
+
+  List<Languages>? transList = [];
+  String? from;
+  String? to;
+
+  Future<void> loadAsset() async {
+    var s = await fixture('languages.json');
+    transList = languagesFromJson(s);
+  }
+
+  @override
+  void initState() {
+    loadAsset();
+    super.initState();
+  }
+
   final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,21 +96,46 @@ class _TranslatorPageState extends State<TranslatorPage> {
                           SizedBox(
                             height: 30,
                             width: 170,
-                            child: TextField(
+                            child: TextFieldSearch(
+                              initialList:
+                                  transList!.map((e) => e.name).toList(),
                               decoration: InputDecoration(
                                 hintText: 'English',
                                 contentPadding: const EdgeInsets.only(left: 10),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(90),
                                   borderSide: const BorderSide(
-                                      color: Colors.purple, width: 2.0),
+                                    color: Colors.purple,
+                                    width: 2.0,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(90),
                                   borderSide: const BorderSide(
-                                      color: Colors.purple, width: 2.0),
+                                    color: Colors.purple,
+                                    width: 2.0,
+                                  ),
                                 ),
                               ),
+                              label: '',
+                              controller: _textEditingController,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                side: const BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              getSelectedValue: (item) {
+                                var list =
+                                    transList!.map((e) => e.name).toList();
+                                var listOfLangCodes =
+                                    transList!.map((e) => e.code).toList();
+                                print(list.indexOf(item));
+                                print(listOfLangCodes[list.indexOf(item)]);
+                                from = listOfLangCodes[list.indexOf(item)]
+                                    .toString();
+                                // if(item.name ==)
+                              },
                             ),
                           ),
 
@@ -119,27 +153,43 @@ class _TranslatorPageState extends State<TranslatorPage> {
                             height: 30,
                             width: 170,
                             child: TextFieldSearch(
-                              initialList: dummyList,
+                              initialList:
+                                  transList!.map((e) => e.name).toList(),
                               minStringLength: 10,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  side: const BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.circular(5),
+                                side: const BorderSide(color: Colors.grey),
+                              ),
                               decoration: InputDecoration(
                                 hintText: 'English',
                                 contentPadding: const EdgeInsets.only(left: 10),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(90),
                                   borderSide: const BorderSide(
-                                      color: Colors.purple, width: 2.0),
+                                    color: Colors.purple,
+                                    width: 2.0,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(90),
                                   borderSide: const BorderSide(
-                                      color: Colors.purple, width: 2.0),
+                                    color: Colors.purple,
+                                    width: 2.0,
+                                  ),
                                 ),
                               ),
-                              controller: _textEditingController,
+                              controller: _textEditingController2,
                               label: '',
+                              getSelectedValue: (item) {
+                                var list =
+                                    transList!.map((e) => e.name).toList();
+                                var listOfLangCodes =
+                                    transList!.map((e) => e.code).toList();
+                                print(list.indexOf(item));
+                                print(listOfLangCodes[list.indexOf(item)]);
+                                to = listOfLangCodes[list.indexOf(item)]
+                                    .toString();
+                              },
                             ),
                           ),
                         ],
@@ -147,7 +197,7 @@ class _TranslatorPageState extends State<TranslatorPage> {
                     ),
 
                     // text-box
-                    const SearchContainer(),
+                    SearchContainer(from: from, to: to),
 
                     const SizedBox(
                       height: 20,

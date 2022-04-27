@@ -8,12 +8,14 @@ abstract class TranslatorEvent extends Equatable {
 }
 
 class GetTranslatedTextEvent extends TranslatorEvent {
-  const GetTranslatedTextEvent(this.text);
+  const GetTranslatedTextEvent(this.text, this.from, this.to);
 
-  final String text;
+  final String? text;
+  final String? from;
+  final String? to;
 
   @override
-  List<Object?> get props => [text];
+  List<Object?> get props => [text, from, to];
 }
 
 class InitialEvent extends TranslatorEvent {}

@@ -51,6 +51,8 @@ void main() {
     'getTranslatedText',
     () {
       const tText = 'Hello';
+      const String tTo = 'de';
+      const String tFrom = 'en';
       const tTranslatorModel = TranslationModel(
         text: tText,
         to: 'en',
@@ -66,7 +68,7 @@ void main() {
           // arrange
           when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
           // act
-          repository.getTranslatedText(tText);
+          repository.getTranslatedText(tText, tFrom, tTo);
           // assert
           verify(mockNetworkInfo.isConnected);
         },
@@ -77,14 +79,14 @@ void main() {
             'should return remote data when call to remote data source is successful',
             () async {
               // arrange
-              when(mockRemoteDataSource.getTranslatedText(any))
+              when(mockRemoteDataSource.getTranslatedText(any, any, any))
                   .thenAnswer((_) async => tTranslatorResultModel);
 
               // act
-              final result = await repository.getTranslatedText(tText);
+              final result = await repository.getTranslatedText(tText, tFrom, tTo);
 
               // assert
-              verify(mockRemoteDataSource.getTranslatedText(tText));
+              verify(mockRemoteDataSource.getTranslatedText(tText, tFrom, tTo));
               expect(result, equals(const Right(tTranslatorResult)));
             },
           );
@@ -93,14 +95,14 @@ void main() {
             'should return server failure when call to remote data source is unsuccessful',
             () async {
               // arrange
-              when(mockRemoteDataSource.getTranslatedText(any))
+              when(mockRemoteDataSource.getTranslatedText(any, any, any))
                   .thenThrow(ServerException());
 
               // act
-              final result = await repository.getTranslatedText(tText);
+              final result = await repository.getTranslatedText(tText, tFrom, tTo);
 
               // assert
-              verify(mockRemoteDataSource.getTranslatedText(tText));
+              verify(mockRemoteDataSource.getTranslatedText(tText, tFrom, tTo));
               expect(result, equals(Left(ServerFailure())));
             },
           );
@@ -113,10 +115,10 @@ void main() {
             'should return network failure if the device is offline',
             () async {
               // act
-              final result = await repository.getTranslatedText(tText);
+              final result = await repository.getTranslatedText(tText, tFrom, tTo);
 
               // assert
-              verifyNever(mockRemoteDataSource.getTranslatedText(any));
+              verifyNever(mockRemoteDataSource.getTranslatedText(any, any, any));
               expect(result, equals(Left(NetworkFailure())));
             },
           );

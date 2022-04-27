@@ -51,6 +51,9 @@ void main() {
     'getTranslatedText',
     () {
       const tText = 'Hello';
+      const String tTo = 'de';
+      const String tFrom = 'en';
+
       const tTranslateBody = TranslatorBodyModel(text: tText);
       final tTranslationResultModel = TranslationResultModel.fromJson(
         json.decode(
@@ -70,14 +73,14 @@ void main() {
           // arrange
           setUpMockHttpClientSuccess200();
           // act
-          translatorRemoteDataSource.getTranslatedText(tText);
+          translatorRemoteDataSource.getTranslatedText(tText, tFrom, tTo);
           // assert
           verify(
             mockHttpClient.post(
               Uri.https(
                 'api.cognitive.microsofttranslator.com',
                 '/translate',
-                {'api-version': '3.0', 'from': 'en', 'to': 'de'},
+                {'api-version': '3.0', 'from': tFrom, 'to': tTo},
               ),
               body: jsonEncode([tTranslateBody.toJson()]),
               headers: requestHeaders,
@@ -93,7 +96,7 @@ void main() {
           setUpMockHttpClientSuccess200();
           // act
           final result =
-              await translatorRemoteDataSource.getTranslatedText(tText);
+              await translatorRemoteDataSource.getTranslatedText(tText, tFrom, tTo);
           // assert
           expect(result, equals(tTranslationResultModel));
         },
@@ -108,7 +111,7 @@ void main() {
           final call = translatorRemoteDataSource.getTranslatedText;
           // assert
           expect(
-              () => call(tText), throwsA(const TypeMatcher<ServerException>()));
+              () => call(tText, tFrom, tTo), throwsA(const TypeMatcher<ServerException>()));
         },
       );
     },

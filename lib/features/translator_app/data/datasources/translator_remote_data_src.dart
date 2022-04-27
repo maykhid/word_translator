@@ -10,14 +10,14 @@ abstract class TranslatorRemoteDataSource {
   /// Calls the Translator API and returns a [TranslationResultModel]
   ///
   /// Throws a [ServerException] for all error codes.
-  Future<TranslationResultModel>? getTranslatedText(String? text);
+  Future<TranslationResultModel>? getTranslatedText(String? text, String? from, String? to);
 }
 
 class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
   final http.Client client;
   late TranslatorBodyModel? translateBodyModel;
 
-  TranslatorRemoteDataSourceImpl({required this.client});
+  TranslatorRemoteDataSourceImpl({required this.client,});
 
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
@@ -26,13 +26,13 @@ class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
   };
 
   @override
-  Future<TranslationResultModel>? getTranslatedText(String? text) async {
+  Future<TranslationResultModel>? getTranslatedText(String? text, String? from, String? to) async {
     translateBodyModel = TranslatorBodyModel(text: text);
     final response = await client.post(
       Uri.https(
         'api.cognitive.microsofttranslator.com',
         '/translate',
-        {'api-version': '3.0', 'from': 'en', 'to': 'de'},
+        {'api-version': '3.0', 'from': from, 'to': to},
       ),
       body: jsonEncode([translateBodyModel!.toJson()]),
       headers: requestHeaders,

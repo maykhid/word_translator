@@ -24,7 +24,7 @@ class TranslatorBloc extends Bloc<TranslatorEvent, TranslatorState> {
         if (state is EmptyState || state is LoadingState || state is LoadedState || state is ErrorState) {
           emit(LoadingState());
           final failureOrTranslationResult =
-              await getTranslatedText(Params(text: event.text));
+              await getTranslatedText(Params(text: event.text, from: event.from, to: event.to));
 
           emit(failureOrTranslationResult!.fold(
             (l) => const ErrorState(SERVER_FAILURE_MESSAGE),

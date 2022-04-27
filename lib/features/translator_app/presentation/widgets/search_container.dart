@@ -4,7 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc.dart';
 
 class SearchContainer extends StatefulWidget {
+  final String? from;
+  final String? to;
+
   const SearchContainer({
+    required this.from,
+    required this.to,
     Key? key,
   }) : super(key: key);
 
@@ -110,6 +115,6 @@ class _SearchContainerState extends State<SearchContainer> {
 
   void dispatchGetTranslation() {
     BlocProvider.of<TranslatorBloc>(context)
-        .add(GetTranslatedTextEvent(inputStr));
+        .add(GetTranslatedTextEvent(inputStr, widget.from, widget.to));
   }
 }

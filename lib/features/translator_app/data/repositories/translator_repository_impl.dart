@@ -19,11 +19,15 @@ class TranslatorRepositoryImpl implements TranslatorRepository {
   @override
   Future<Either<Failure, TranslationResult?>>? getTranslatedText(
     String? text,
+    String? from,
+    String? to,
   ) async {
     if (await networkInfo.isConnected ?? false) {
       try {
         final remoteTranslatorResult = await remoteDataSource.getTranslatedText(
           text,
+          from,
+          to,
         );
         return Right(remoteTranslatorResult);
       } on ServerException {

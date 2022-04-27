@@ -32,7 +32,7 @@ dependencies:
   textfield_search: 
     git:
       url: https://github.com/maykhid/flutter_textfield_search.git
-      ref: list-container-fix
+      ref: code_contraption
 
 dev_dependencies:
   flutter_test:

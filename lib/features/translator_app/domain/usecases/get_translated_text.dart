@@ -16,15 +16,17 @@ class GetTranslatedText implements UseCase<TranslationResult?, Params> {
   /// [call] makes it possible to call this usecase by just using the instance of this class e.g [usecase]
   @override
   Future<Either<Failure, TranslationResult?>?> call(Params params) async {
-    return await translatorRepository.getTranslatedText(params.text);
+    return await translatorRepository.getTranslatedText(params.text, params.from, params.to);
   }
 }
 
 class Params extends Equatable {
   final String? text;
+  final String? to;
+  final String? from;
 
-  const Params({this.text});
+  const Params({this.text, this.from, this.to});
 
   @override
-  List<Object?> get props => [text];
+  List<Object?> get props => [text, from, to];
 }

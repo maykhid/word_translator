@@ -13,7 +13,6 @@ import 'translator_bloc_test.mocks.dart';
 
 // class MockGetTranslatedText extends Mock implements GetTranslatedText {}
 @GenerateMocks([GetTranslatedText])
-
 void main() {
   late TranslatorBloc bloc;
   late MockGetTranslatedText mockGetTranslatedText;
@@ -32,6 +31,9 @@ void main() {
     'GetTranslatedTextEvent',
     () {
       const tText = 'Hello';
+      const tFrom = 'en';
+      const tTo = 'de';
+
       const tTranslatorModel = TranslationModel(
         text: 'Hallo',
         to: 'de',
@@ -49,11 +51,11 @@ void main() {
           when(mockGetTranslatedText(any))
               .thenAnswer((_) async => const Right(tTranslatorResult));
           // act
-          bloc.add(const GetTranslatedTextEvent(tText));
+          bloc.add(const GetTranslatedTextEvent(tText, tFrom, tTo));
           await untilCalled(mockGetTranslatedText(any));
           // expect(bloc.state, emitsInOrder([EmptyState(), ]))
           // assert
-          verify(mockGetTranslatedText(const Params(text: tText)));
+          verify(mockGetTranslatedText(const Params(text: tText, from: tFrom, to: tTo)));
         },
       );
 
@@ -64,9 +66,12 @@ void main() {
               .thenAnswer((_) async => const Right(tTranslatorResult));
         },
         build: () => TranslatorBloc(mockGetTranslatedText),
-        act: (bloc) => bloc.add(const GetTranslatedTextEvent(tText)),
-        expect: () => <TranslatorState>[LoadingState(), const LoadedState(result: tTranslatorResult)],
-        verify: (_) => verify(mockGetTranslatedText(const Params(text: tText))),
+        act: (bloc) => bloc.add(const GetTranslatedTextEvent(tText, tFrom, tTo)),
+        expect: () => <TranslatorState>[
+          LoadingState(),
+          const LoadedState(result: tTranslatorResult)
+        ],
+        verify: (_) => verify(mockGetTranslatedText(const Params(text: tText, from: tFrom, to: tTo))),
       );
 
       blocTest<TranslatorBloc, TranslatorState>(
@@ -76,9 +81,12 @@ void main() {
               .thenAnswer((_) async => Left(ServerFailure()));
         },
         build: () => TranslatorBloc(mockGetTranslatedText),
-        act: (bloc) => bloc.add(const GetTranslatedTextEvent(tText)),
-        expect: () => <TranslatorState>[LoadingState(), const ErrorState(SERVER_FAILURE_MESSAGE)],
-        verify: (_) => verify(mockGetTranslatedText(const Params(text: tText))),
+        act: (bloc) => bloc.add(const GetTranslatedTextEvent(tText, tFrom, tTo)),
+        expect: () => <TranslatorState>[
+          LoadingState(),
+          const ErrorState(SERVER_FAILURE_MESSAGE)
+        ],
+        verify: (_) => verify(mockGetTranslatedText(const Params(text: tText, from: tFrom, to: tTo))),
       );
     },
   );
