@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:word_translator/features/translator_app/domain/entities/translator.dart';
 
 import '../../../domain/usecases/get_translated_text.dart';
@@ -20,10 +21,14 @@ class TranslatorBloc extends Bloc<TranslatorEvent, TranslatorState> {
     // The event for GetTranslatedText
     on<GetTranslatedTextEvent>(
       (event, emit) async {
-        if (state is EmptyState || state is LoadingState || state is LoadedState || state is ErrorState) {
+        debugPrint('Running translate');
+        if (state is EmptyState ||
+            state is LoadingState ||
+            state is LoadedState ||
+            state is ErrorState) {
           emit(LoadingState());
-          final failureOrTranslationResult =
-              await getTranslatedText(Params(text: event.text, from: event.from, to: event.to));
+          final failureOrTranslationResult = await getTranslatedText(
+              Params(text: event.text, from: event.from, to: event.to));
 
           emit(failureOrTranslationResult!.fold(
             (l) => const ErrorState(SERVER_FAILURE_MESSAGE),

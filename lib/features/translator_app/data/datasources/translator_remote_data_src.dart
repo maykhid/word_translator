@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import '../../../../core/error/exceptions.dart';
 import '../../../../secrets.dart';
 import '../models/translator_body_model.dart';
@@ -10,14 +12,17 @@ abstract class TranslatorRemoteDataSource {
   /// Calls the Translator API and returns a [TranslationResultModel]
   ///
   /// Throws a [ServerException] for all error codes.
-  Future<TranslationResultModel>? getTranslatedText(String? text, String? from, String? to);
+  Future<TranslationResultModel>? getTranslatedText(
+      String? text, String? from, String? to);
 }
 
 class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
   final http.Client client;
   late TranslatorBodyModel? translateBodyModel;
 
-  TranslatorRemoteDataSourceImpl({required this.client,});
+  TranslatorRemoteDataSourceImpl({
+    required this.client,
+  });
 
   Map<String, String> requestHeaders = {
     'Content-type': 'application/json',
@@ -26,8 +31,10 @@ class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
   };
 
   @override
-  Future<TranslationResultModel>? getTranslatedText(String? text, String? from, String? to) async {
+  Future<TranslationResultModel>? getTranslatedText(
+      String? text, String? from, String? to) async {
     translateBodyModel = TranslatorBodyModel(text: text);
+    debugPrint('$from: from, to: $to');
     final response = await client.post(
       Uri.https(
         'api.cognitive.microsofttranslator.com',
@@ -41,6 +48,7 @@ class TranslatorRemoteDataSourceImpl implements TranslatorRemoteDataSource {
     if (response.statusCode == 200) {
       return TranslationResultModel.fromJson(json.decode(response.body));
     } else {
+      debugPrint(response.body);
       throw ServerException();
     }
   }

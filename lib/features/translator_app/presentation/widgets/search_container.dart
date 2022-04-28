@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:word_translator/features/translator_app/presentation/bloc/from_to_bloc/from_to_bloc.dart';
 import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
 
 class SearchContainer extends StatefulWidget {
-  final String? from;
-  final String? to;
+
 
   const SearchContainer({
-    required this.from,
-    required this.to,
     Key? key,
   }) : super(key: key);
 
@@ -21,6 +19,7 @@ class _SearchContainerState extends State<SearchContainer> {
   late String inputStr;
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<FromToBloc>().state;
     return Container(
       padding: const EdgeInsets.all(22),
       height: 200,
@@ -56,10 +55,10 @@ class _SearchContainerState extends State<SearchContainer> {
                       ),
                       onChanged: (val) {
                         inputStr = val;
-                        dispatchGetTranslation();
+                        dispatchGetTranslation(state);
                       },
                       onSubmitted: (_) {
-                        dispatchGetTranslation();
+                        dispatchGetTranslation(state);
                       },
                     ),
                   ),
@@ -113,8 +112,8 @@ class _SearchContainerState extends State<SearchContainer> {
     );
   }
 
-  void dispatchGetTranslation() {
+  void dispatchGetTranslation(state) {
     BlocProvider.of<TranslatorBloc>(context)
-        .add(GetTranslatedTextEvent(inputStr, widget.from, widget.to));
+        .add(GetTranslatedTextEvent(inputStr, state.from, state.to));
   }
 }
