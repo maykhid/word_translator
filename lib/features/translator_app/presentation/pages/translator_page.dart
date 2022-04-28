@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:textfield_search/textfield_search.dart';
+
+import '../../../../core/util/fixture_reader.dart';
+import '../../data/models/languages_model.dart';
+import '../../domain/entities/languages.dart';
+import '../bloc/from_to_bloc/from_to_bloc.dart';
+import '../bloc/translator_bloc/translator_bloc.dart';
+import '../widgets/widgets.dart';
 
 class TranslatorPage extends StatefulWidget {
   const TranslatorPage({Key? key}) : super(key: key);
@@ -11,14 +19,41 @@ class TranslatorPage extends StatefulWidget {
 }
 
 class _TranslatorPageState extends State<TranslatorPage> {
-  // final String assetName = 'assets/logo.svg';
+
   final Widget svg =
       SvgPicture.asset('assets/images/logo.svg', semanticsLabel: 'Acme Logo');
-      static const dummyList = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8', 'Item 9', 'Item 10'];
+
+  List<Languages>? transList = [];
+  String? from;
+  String? to;
+
+  Future<void> loadAsset() async {
+    var s = await fixture('languages.json');
+    transList = languagesFromJson(s);
+  }
+
+  @override
+  void initState() {
+    loadAsset();
+    // _textEditingController.addListener(() {
+    //   BlocProvider.of<FromToBloc>(context)
+    //       .add(GetFromLangEvent(_textEditingController.text, transList));
+    // });
+    // _textEditingController2.addListener(() {
+    //   BlocProvider.of<FromToBloc>(context)
+    //       .add(GetFromLangEvent(_textEditingController2.text, transList));
+    // });
+    super.initState();
+  }
+
   final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // _textEditingController.text = 'English';
+    // _textEditingController2.text = 'French';
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -69,21 +104,40 @@ class _TranslatorPageState extends State<TranslatorPage> {
                         SizedBox(
                           height: 30,
                           width: 170,
-                          child: TextField(
+                          child: TextFieldSearch(
+                            initialList: transList!.map((e) => e.name).toList(),
                             decoration: InputDecoration(
                               hintText: 'English',
                               contentPadding: const EdgeInsets.only(left: 10),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 2.0),
+                                  color: Colors.purple,
+                                  width: 2.0,
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 2.0),
+                                  color: Colors.purple,
+                                  width: 2.0,
+                                ),
                               ),
                             ),
+                            label: '',
+                            controller: _textEditingController,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              side: const BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            getSelectedValue: (item) {
+                              
+                              BlocProvider.of<FromToBloc>(context)
+                                  .add(GetFromLangEvent(item, transList));
+                              debugPrint('i got item$item');
+                            },
                           ),
                         ),
 
@@ -101,11 +155,11 @@ class _TranslatorPageState extends State<TranslatorPage> {
                           height: 30,
                           width: 170,
                           child: TextFieldSearch(
-                            initialList: dummyList,
+                            initialList: transList!.map((e) => e.name).toList(),
                             minStringLength: 10,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
-                              side: const BorderSide(color: Colors.grey)
+                              side: const BorderSide(color: Colors.grey),
                             ),
                             decoration: InputDecoration(
                               hintText: 'English',
@@ -113,16 +167,26 @@ class _TranslatorPageState extends State<TranslatorPage> {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 2.0),
+                                  color: Colors.purple,
+                                  width: 2.0,
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),
                                 borderSide: const BorderSide(
-                                    color: Colors.purple, width: 2.0),
+                                  color: Colors.purple,
+                                  width: 2.0,
+                                ),
                               ),
                             ),
-                            controller: _textEditingController,
+                            controller: _textEditingController2,
                             label: '',
+                            getSelectedValue: (item) {
+                             
+                              BlocProvider.of<FromToBloc>(context)
+                                  .add(GetToLangEvent(item, transList));
+                              debugPrint('i got item$item');
+                            },
                           ),
                         ),
                       ],
@@ -130,146 +194,60 @@ class _TranslatorPageState extends State<TranslatorPage> {
                   ),
 
                   // text-box
-                  Container(
-                    padding: const EdgeInsets.all(22),
-                    height: 200,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // text field
-                            Scrollbar(
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                reverse: true,
-                                child: SizedBox(
-                                  height: 110,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.70,
-                                  // color: Colors.black,
-                                  child: const TextField(
-                                    maxLines: 100,
-                                    decoration: InputDecoration(
-                                      hintText: 'Enter text here',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      contentPadding: EdgeInsets.only(left: 15),
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // paste from keyboard
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              height: 35,
-                              width: MediaQuery.of(context).size.width * 0.48,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.keyboard,
-                                    color: Colors.black.withOpacity(0.3),
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    'Paste from clipboard',
-                                    style: TextStyle(
-                                        color: Colors.black.withOpacity(0.5),
-                                        fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        // mic
-                        SizedBox(
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            icon: Icon(
-                              Icons.mic_none_outlined,
-                              color: Colors.grey.withOpacity(0.5),
-                              size: 30,
-                            ),
-                            onPressed: null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const SearchContainer(),
 
                   const SizedBox(
                     height: 20,
                   ),
 
-                  Container(
-                    height: 200,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    padding: const EdgeInsets.all(22),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // translated text
-                        Scrollbar(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            reverse: true,
-                            child: SizedBox(
-                              height: 110,
-                              width: MediaQuery.of(context).size.width * 0.70,
-                              // color: Colors.black,
-                              child: const Text(
-                                'Translating...',
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
-                              ),
+                  BlocBuilder<TranslatorBloc, TranslatorState>(
+                    builder: (context, state) {
+                      if (state is EmptyState) {
+                        return Container();
+                      } else if (state is LoadingState) {
+                        return const SearchResultContainer(
+                          prefferedWidget: Text(
+                            'Translating...',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
                           ),
-                        ),
-
-                        Container(
-                          // padding: const EdgeInsets.symmetric(horizontal: 10),
-                          height: 35,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: ShapeDecoration(
-                            color: Colors.grey.withOpacity(0.1),
-                            shape: CircleBorder(),
-                          ),
-                          child: Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.copy,
-                              color: Colors.black.withOpacity(0.3),
-                              size: 15,
+                        );
+                      } else if (state is LoadedState) {
+                        return SearchResultContainer(
+                          prefferedWidget: Text(
+                            state.result!.translations![0].text.toString(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        );
+                      } else if (state is ErrorState) {
+                        return SearchResultContainer(
+                          prefferedWidget: Text(
+                            state.message,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const SearchResultContainer(
+                          prefferedWidget: Text(
+                            'An error occured!',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

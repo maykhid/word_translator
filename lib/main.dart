@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:word_translator/features/translator_app/presentation/pages/translator_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'dependency_injector.dart' as di;
 
-void main() {
+import 'features/translator_app/presentation/bloc/from_to_bloc/from_to_bloc.dart';
+import 'features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
+import 'features/translator_app/presentation/pages/translator_page.dart';
+
+void main() async {
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -15,11 +22,19 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        
         primarySwatch: Colors.blue,
       ),
-      home: const TranslatorPage(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<TranslatorBloc>(
+              create: (context) => GetIt.instance<TranslatorBloc>(),
+            ),
+            BlocProvider<FromToBloc>(
+              create: (context) => FromToBloc(),
+            ),
+        ],
+        child: const TranslatorPage(),
+      ),
     );
   }
 }
-
