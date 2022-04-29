@@ -19,17 +19,18 @@ class TranslatorPage extends StatefulWidget {
 }
 
 class _TranslatorPageState extends State<TranslatorPage> {
-
   final Widget svg =
       SvgPicture.asset('assets/images/logo.svg', semanticsLabel: 'Acme Logo');
 
-  List<Languages>? transList = [];
+  List<Languages>? languageList = [];
   String? from;
   String? to;
 
   Future<void> loadAsset() async {
     var s = await fixture('languages.json');
-    transList = languagesFromJson(s);
+    setState(() {
+      languageList = languagesFromJson(s);
+    });
   }
 
   @override
@@ -44,6 +45,9 @@ class _TranslatorPageState extends State<TranslatorPage> {
     //       .add(GetFromLangEvent(_textEditingController2.text, transList));
     // });
     super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      loadAsset();
+    });
   }
 
   final TextEditingController _textEditingController = TextEditingController();
@@ -105,7 +109,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
                           height: 30,
                           width: 170,
                           child: TextFieldSearch(
-                            initialList: transList!.map((e) => e.name).toList(),
+                            initialList:
+                                languageList!.map((e) => e.name).toList(),
                             decoration: InputDecoration(
                               hintText: 'English',
                               contentPadding: const EdgeInsets.only(left: 10),
@@ -133,9 +138,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
                               ),
                             ),
                             getSelectedValue: (item) {
-                              
                               BlocProvider.of<FromToBloc>(context)
-                                  .add(GetFromLangEvent(item, transList));
+                                  .add(GetFromLangEvent(item, languageList));
                               debugPrint('i got item$item');
                             },
                           ),
@@ -155,7 +159,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
                           height: 30,
                           width: 170,
                           child: TextFieldSearch(
-                            initialList: transList!.map((e) => e.name).toList(),
+                            initialList:
+                                languageList!.map((e) => e.name).toList(),
                             minStringLength: 10,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
@@ -182,9 +187,8 @@ class _TranslatorPageState extends State<TranslatorPage> {
                             controller: _textEditingController2,
                             label: '',
                             getSelectedValue: (item) {
-                             
                               BlocProvider.of<FromToBloc>(context)
-                                  .add(GetToLangEvent(item, transList));
+                                  .add(GetToLangEvent(item, languageList));
                               debugPrint('i got item$item');
                             },
                           ),
