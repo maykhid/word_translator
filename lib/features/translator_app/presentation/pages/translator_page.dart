@@ -35,19 +35,18 @@ class _TranslatorPageState extends State<TranslatorPage> {
 
   @override
   void initState() {
-    loadAsset();
-    // _textEditingController.addListener(() {
-    //   BlocProvider.of<FromToBloc>(context)
-    //       .add(GetFromLangEvent(_textEditingController.text, transList));
-    // });
-    // _textEditingController2.addListener(() {
-    //   BlocProvider.of<FromToBloc>(context)
-    //       .add(GetFromLangEvent(_textEditingController2.text, transList));
-    // });
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       loadAsset();
     });
+    //  _textEditingController.addListener(() {
+    //   BlocProvider.of<FromToBloc>(context)
+    //       .add(GetFromLangEvent(_textEditingController.text, languageList));
+    // });
+    // _textEditingController2.addListener(() {
+    //   BlocProvider.of<FromToBloc>(context)
+    //       .add(GetFromLangEvent(_textEditingController2.text, languageList));
+    // });
   }
 
   final TextEditingController _textEditingController = TextEditingController();
@@ -167,7 +166,7 @@ class _TranslatorPageState extends State<TranslatorPage> {
                               side: const BorderSide(color: Colors.grey),
                             ),
                             decoration: InputDecoration(
-                              hintText: 'English',
+                              hintText: 'French',
                               contentPadding: const EdgeInsets.only(left: 10),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(90),

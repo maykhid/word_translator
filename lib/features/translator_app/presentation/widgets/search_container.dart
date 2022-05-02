@@ -5,8 +5,6 @@ import 'package:word_translator/features/translator_app/presentation/bloc/from_t
 import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
 
 class SearchContainer extends StatefulWidget {
-
-
   const SearchContainer({
     Key? key,
   }) : super(key: key);
@@ -112,8 +110,14 @@ class _SearchContainerState extends State<SearchContainer> {
     );
   }
 
-  void dispatchGetTranslation(state) {
-    BlocProvider.of<TranslatorBloc>(context)
-        .add(GetTranslatedTextEvent(inputStr, state.from, state.to));
+  void dispatchGetTranslation(FromToState state) {
+    if (state.from == null || state.to == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Check that your preffered language(s) has been selected.'), duration: Duration(seconds: 2),));
+    } else {
+      BlocProvider.of<TranslatorBloc>(context)
+          .add(GetTranslatedTextEvent(inputStr, state.from, state.to));
+    }
   }
 }
