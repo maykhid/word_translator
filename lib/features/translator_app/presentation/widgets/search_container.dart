@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:word_translator/core/util/clipboard_util.dart';
 import 'package:word_translator/features/translator_app/presentation/bloc/from_to_bloc/from_to_bloc.dart';
 import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
 
@@ -81,10 +82,17 @@ class _SearchContainerState extends State<SearchContainer> {
                       color: Colors.black.withOpacity(0.3),
                       size: 15,
                     ),
-                    Text(
-                      'Paste from clipboard',
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.5), fontSize: 16),
+                    InkWell(
+                      onTap: () async {
+                        await Clip.paste('Paste', callBack: () {
+                          print('Text pasted');
+                        });
+                      },
+                      child: Text(
+                        'Paste from clipboard',
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5), fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
@@ -113,8 +121,10 @@ class _SearchContainerState extends State<SearchContainer> {
   void dispatchGetTranslation(FromToState state) {
     if (state.from == null || state.to == null) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Check that your preffered language(s) has been selected.'), duration: Duration(seconds: 2),));
+        content:
+            Text('Check that your preffered language(s) has been selected.'),
+        duration: Duration(seconds: 2),
+      ));
     } else {
       BlocProvider.of<TranslatorBloc>(context)
           .add(GetTranslatedTextEvent(inputStr, state.from, state.to));

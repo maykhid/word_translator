@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:word_translator/core/util/clipboard_util.dart';
 
 class SearchResultContainer extends StatelessWidget {
   final Widget prefferedWidget;
@@ -45,10 +46,17 @@ class SearchResultContainer extends StatelessWidget {
               shape: const CircleBorder(),
             ),
             child: Center(
-              child: FaIcon(
-                FontAwesomeIcons.copy,
-                color: Colors.black.withOpacity(0.3),
-                size: 15,
+              child: IconButton(
+                onPressed: () {
+                  Clip.copy('Copied', callBack: (String result) {
+                    print('Text copied! + $result');
+                  });
+                },
+                icon: FaIcon(
+                  FontAwesomeIcons.copy,
+                  color: Colors.black.withOpacity(0.3),
+                  size: 15,
+                ),
               ),
             ),
           ),
