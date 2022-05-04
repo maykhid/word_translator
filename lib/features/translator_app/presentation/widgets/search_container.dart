@@ -16,6 +16,8 @@ class SearchContainer extends StatefulWidget {
 
 class _SearchContainerState extends State<SearchContainer> {
   late String inputStr;
+  final TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<FromToBloc>().state;
@@ -46,6 +48,7 @@ class _SearchContainerState extends State<SearchContainer> {
                     // color: Colors.black,
                     child: TextField(
                       maxLines: 100,
+                      controller: _textEditingController,
                       decoration: const InputDecoration(
                         hintText: 'Enter text here',
                         hintStyle: TextStyle(color: Colors.grey),
@@ -84,9 +87,7 @@ class _SearchContainerState extends State<SearchContainer> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await Clip.paste('Paste', callBack: () {
-                          print('Text pasted');
-                        });
+                        await Clip.paste(callBack: (value) => _textEditingController.text += value);
                       },
                       child: Text(
                         'Paste from clipboard',

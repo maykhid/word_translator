@@ -9,10 +9,10 @@ class Clip {
   }
 
   // paste
-  static Future<String> paste(String? text, {Function? callBack}) async {
+  static Future<void> paste({required Function? callBack}) async {
     return FlutterClipboard.paste().then((_) {
-      callBack!();
-      return _;
+      callBack!(_);
+      // return _;
     });
   }
   // print('Pasted!')
