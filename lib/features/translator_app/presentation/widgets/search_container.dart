@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../../core/util/clipboard_util.dart';
+
+import '../bloc/clipboard_bloc/clipboard_bloc.dart';
 import '../bloc/from_to_bloc/from_to_bloc.dart';
 import '../bloc/translator_bloc/translator_bloc.dart';
 import '../notifiers/notifiers.dart';
@@ -21,7 +22,9 @@ class _SearchContainerState extends State<SearchContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<FromToBloc>().state;
+    final fromtostate = context.watch<FromToBloc>().state;
+    final clipboardstate = context.watch<ClipboardBloc>().state;
+
     return Container(
       padding: const EdgeInsets.all(22),
       height: 200,
@@ -58,10 +61,10 @@ class _SearchContainerState extends State<SearchContainer> {
                       ),
                       onChanged: (val) {
                         inputStr = val;
-                        dispatchGetTranslation(state);
+                        dispatchGetTranslation(fromtostate);
                       },
                       onSubmitted: (_) {
-                        dispatchGetTranslation(state);
+                        dispatchGetTranslation(fromtostate);
                       },
                     ),
                   ),
@@ -88,9 +91,7 @@ class _SearchContainerState extends State<SearchContainer> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await Clip.paste(
-                            callBack: (value) =>
-                                _textEditingController.text += value);
+                        dispatchPaste(clipboardstate);
                       },
                       child: Text(
                         'Paste from clipboard',
@@ -131,6 +132,18 @@ class _SearchContainerState extends State<SearchContainer> {
     } else {
       BlocProvider.of<TranslatorBloc>(context)
           .add(GetTranslatedTextEvent(inputStr, state.from, state.to));
+    }
+  }
+
+  void dispatchPaste(ClipboardState state) {
+    BlocProvider.of<ClipboardBloc>(context).add(const PasteEvent());
+    if (state is OnLoading) {
+      Notifiers.showToast('Please wait...');
+    } else if (state is OnSuccessful) {
+      _textEditingController.text += state.text!;
+      Notifiers.showToast('Pasted successfully');
+    } else {
+      Notifiers.showToast('An error occured while copying. Please try again');
     }
   }
 }
