@@ -18,12 +18,13 @@ class FromToBloc extends Bloc<FromToEvent, FromToState> {
       var list = event.langs!.map((e) => e.name).toList();
       var listOfLangCodes = event.langs!.map((e) => e.code).toList();
       var from = listOfLangCodes[list.indexOf(event.selectedItem)].toString();
+      
       emit(FromToState.fromLoaded(from: from, to: state.to));
       debugPrint('This is \'from\' event: $from, $state.to');
     });
 
     on<GetToLangEvent>((event, emit) {
-      debugPrint('GetFromLangEvent');
+      debugPrint('GetToLangEvent');
       var list = event.langs!.map((e) => e.name).toList();
       var listOfLangCodes = event.langs!.map((e) => e.code).toList();
       var to = listOfLangCodes[list.indexOf(event.selectedItem)].toString();

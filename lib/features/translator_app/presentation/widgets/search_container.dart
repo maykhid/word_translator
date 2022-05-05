@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/from_to_bloc/from_to_bloc.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
+
+import '../bloc/clipboard_bloc/clipboard_bloc.dart';
+import '../bloc/from_to_bloc/from_to_bloc.dart';
+import '../bloc/translator_bloc/translator_bloc.dart';
+import '../notifiers/notifiers.dart';
 
 class SearchContainer extends StatefulWidget {
-
-
   const SearchContainer({
     Key? key,
   }) : super(key: key);
@@ -17,9 +18,13 @@ class SearchContainer extends StatefulWidget {
 
 class _SearchContainerState extends State<SearchContainer> {
   late String inputStr;
+  final TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<FromToBloc>().state;
+    final fromtostate = context.watch<FromToBloc>().state;
+    final clipboardstate = context.watch<ClipboardBloc>().state;
+
     return Container(
       padding: const EdgeInsets.all(22),
       height: 200,
@@ -47,6 +52,7 @@ class _SearchContainerState extends State<SearchContainer> {
                     // color: Colors.black,
                     child: TextField(
                       maxLines: 100,
+                      controller: _textEditingController,
                       decoration: const InputDecoration(
                         hintText: 'Enter text here',
                         hintStyle: TextStyle(color: Colors.grey),
@@ -55,10 +61,10 @@ class _SearchContainerState extends State<SearchContainer> {
                       ),
                       onChanged: (val) {
                         inputStr = val;
-                        dispatchGetTranslation(state);
+                        dispatchGetTranslation(fromtostate);
                       },
                       onSubmitted: (_) {
-                        dispatchGetTranslation(state);
+                        dispatchGetTranslation(fromtostate);
                       },
                     ),
                   ),
@@ -83,10 +89,15 @@ class _SearchContainerState extends State<SearchContainer> {
                       color: Colors.black.withOpacity(0.3),
                       size: 15,
                     ),
-                    Text(
-                      'Paste from clipboard',
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.5), fontSize: 16),
+                    InkWell(
+                      onTap: () async {
+                        dispatchPaste(clipboardstate);
+                      },
+                      child: Text(
+                        'Paste from clipboard',
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.5), fontSize: 16),
+                      ),
                     ),
                   ],
                 ),
@@ -112,8 +123,27 @@ class _SearchContainerState extends State<SearchContainer> {
     );
   }
 
-  void dispatchGetTranslation(state) {
-    BlocProvider.of<TranslatorBloc>(context)
-        .add(GetTranslatedTextEvent(inputStr, state.from, state.to));
+  void dispatchGetTranslation(FromToState state) {
+    if (state.from == null || state.to == null) {
+      Notifiers.showSnackbar(
+        context: context,
+        text: 'Check that your preffered language(s) has been selected.',
+      );
+    } else {
+      BlocProvider.of<TranslatorBloc>(context)
+          .add(GetTranslatedTextEvent(inputStr, state.from, state.to));
+    }
+  }
+
+  void dispatchPaste(ClipboardState state) {
+    BlocProvider.of<ClipboardBloc>(context).add(const PasteEvent());
+    if (state is OnLoading) {
+      Notifiers.showToast('Please wait...');
+    } else if (state is OnSuccessful) {
+      _textEditingController.text += state.text!;
+      Notifiers.showToast('Pasted successfully');
+    } else {
+      Notifiers.showToast('An error occured while copying. Please try again');
+    }
   }
 }
