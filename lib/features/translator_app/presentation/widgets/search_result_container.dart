@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:word_translator/core/util/clipboard_util.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
+import '../../../../core/util/clipboard_util.dart';
+import '../bloc/translator_bloc/translator_bloc.dart';
+import '../notifiers/notifiers.dart';
 
 class SearchResultContainer extends StatelessWidget {
   final Widget prefferedWidget;
@@ -58,14 +59,7 @@ class SearchResultContainer extends StatelessWidget {
                   }
                   // Todo: refactor this snackbar code
                   else {
-                    Fluttertoast.showToast(
-                        msg: "This is Center Short Toast",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                    Notifiers.showToast('An error occured while copying');
                   }
                 },
                 icon: FaIcon(

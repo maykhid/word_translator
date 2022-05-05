@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:word_translator/features/translator_app/domain/entities/languages.dart';
+import '../../domain/entities/languages.dart';
 
 List<Languages> languagesFromJson(String str) => List<Languages>.from(json.decode(str).map((x) => LanguagesModel.fromJson(x)));
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:word_translator/core/util/clipboard_util.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/from_to_bloc/from_to_bloc.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
+import '../../../../core/util/clipboard_util.dart';
+import '../bloc/from_to_bloc/from_to_bloc.dart';
+import '../bloc/translator_bloc/translator_bloc.dart';
+import '../notifiers/notifiers.dart';
 
 class SearchContainer extends StatefulWidget {
   const SearchContainer({
@@ -87,7 +88,9 @@ class _SearchContainerState extends State<SearchContainer> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await Clip.paste(callBack: (value) => _textEditingController.text += value);
+                        await Clip.paste(
+                            callBack: (value) =>
+                                _textEditingController.text += value);
                       },
                       child: Text(
                         'Paste from clipboard',
@@ -121,11 +124,10 @@ class _SearchContainerState extends State<SearchContainer> {
 
   void dispatchGetTranslation(FromToState state) {
     if (state.from == null || state.to == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content:
-            Text('Check that your preffered language(s) has been selected.'),
-        duration: Duration(seconds: 2),
-      ));
+      Notifiers.showSnackbar(
+        context: context,
+        text: 'Check that your preffered language(s) has been selected.',
+      );
     } else {
       BlocProvider.of<TranslatorBloc>(context)
           .add(GetTranslatedTextEvent(inputStr, state.from, state.to));

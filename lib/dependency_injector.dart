@@ -1,11 +1,11 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:word_translator/core/network/network_info.dart';
-import 'package:word_translator/features/translator_app/data/datasources/translator_remote_data_src.dart';
-import 'package:word_translator/features/translator_app/domain/repositories/translator_repository.dart';
-import 'package:word_translator/features/translator_app/domain/usecases/get_translated_text.dart';
-import 'package:word_translator/features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
+import 'core/network/network_info.dart';
+import 'features/translator_app/data/datasources/translator_remote_data_src.dart';
+import 'features/translator_app/domain/repositories/translator_repository.dart';
+import 'features/translator_app/domain/usecases/get_translated_text.dart';
+import 'features/translator_app/presentation/bloc/translator_bloc/translator_bloc.dart';
 
 import 'features/translator_app/data/repositories/translator_repository_impl.dart';
 
