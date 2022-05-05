@@ -143,7 +143,7 @@ class _SearchContainerState extends State<SearchContainer> {
       _textEditingController.text += state.text!;
       Notifiers.showToast('Pasted successfully');
     } else {
-      Notifiers.showToast('An error occured while copying. Please try again');
+      Notifiers.showToast('An error occured during paste. Please try again');
     }
   }
 }
