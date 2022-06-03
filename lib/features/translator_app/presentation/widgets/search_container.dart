@@ -75,7 +75,7 @@ class _SearchContainerState extends State<SearchContainer> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: 35,
-                width: MediaQuery.of(context).size.width * 0.48,
+                width: MediaQuery.of(context).size.width * 0.55,
                 decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
