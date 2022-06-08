@@ -71,7 +71,7 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ## :checkered_flag: Starting ##
 
-Do read <a href="https://azure.microsoft.com/en-us/services/cognitive-services/translator/#overview" target="_blank"> Microsoft Azure Translator Service</a> to be able to run this app.
+Do read <a href="https://azure.microsoft.com/en-us/services/cognitive-services/translator/#overview" target="_blank"> Microsoft Azure Translator Service</a> to subscribe and get your secret keys.
 
 ```bash
 # Clone this project
