@@ -75,7 +75,7 @@ class _SearchContainerState extends State<SearchContainer> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 height: 35,
-                width: MediaQuery.of(context).size.width * 0.48,
+                width: MediaQuery.of(context).size.width * 0.55,
                 decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
@@ -143,7 +143,7 @@ class _SearchContainerState extends State<SearchContainer> {
       _textEditingController.text += state.text!;
       Notifiers.showToast('Pasted successfully');
     } else {
-      Notifiers.showToast('An error occured while copying. Please try again');
+      Notifiers.showToast('An error occured during paste. Please try again');
     }
   }
 }
