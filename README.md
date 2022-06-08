@@ -84,7 +84,7 @@ From Android Studio/IntelliJ: Click Packages get in the action ribbon at the top
 
 From VS Code: Click Get Packages located in right side of the action ribbon at the top of pubspec.yaml.
 
-You need an Azure subscription and secret keys. When those are available you can directly add the secret keys to lib/features/translator_app/data/datasources/translator_remote_data_src.dart or create a seperate for that and add the file to .gitignore.
+You need an Azure subscription and secret keys. When those are available you can directly add the secret keys to lib/features/translator_app/data/datasources/translator_remote_data_src.dart or create a seperate file lib/secrets.dart and add the keys there.
 ```
 
  
