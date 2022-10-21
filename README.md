@@ -46,7 +46,7 @@
 
 ## :dart: About ##
 
-This is a Translator app built with Flutter employing the <a href="https://azure.microsoft.com/en-us/services/cognitive-services/translator/#overview" target="_blank"> Microsoft Azure Translator Service</a>. Adhered to the Clean Architecture and Test Driven Development pattern proposed by Uncle Bob.
+This is a Translator app built with Flutter employing the <a href="https://azure.microsoft.com/en-us/services/cognitive-services/translator/#overview" target="_blank"> Microsoft Azure Translator Service</a>. Adhered to the Clean Architecture and Test Driven Development pattern proposed by Uncle Bob. This is a reproduction of a web project I saw online somewhere can't exactly remember now so I can't credit.
 
 ## :sparkles: Features ##
 
@@ -87,9 +87,17 @@ From VS Code: Click Get Packages located in right side of the action ribbon at t
 You need an Azure subscription and secret keys. When those are available you can directly add the secret keys to lib/features/translator_app/data/datasources/translator_remote_data_src.dart or create a seperate file lib/secrets.dart and add the keys there.
 ```
 
- 
+## 🖼️ Screenshots ##
+<p float="left">
+  <img src= "https://user-images.githubusercontent.com/54851623/197097148-203db6e1-8bf4-48ff-bc02-50f317ee244f.png" width="320" height="700" />
+  <img src="https://user-images.githubusercontent.com/54851623/197097239-6f4a2b21-bded-439c-8945-92f705b1cb24.png" width="320" height="700"/> 
+  <img src="https://user-images.githubusercontent.com/54851623/197097279-cbdfe44d-12c2-4511-a1b6-010c38f83a65.png" width="320" height="700" />
+</p>
 <!-- 
-## :memo: License ##
+## :memo: License ##![Simulator Screen Shot - iPhone 12 Pro - 2022-10-21 at 03 25 07](https://user-images.githubusercontent.com/54851623/197097148-203db6e1-8bf4-48ff-bc02-50f317ee244f.png)![Simulator Screen Shot - iPhone 12 Pro ![Simulator Screen Shot - iPhone 12 Pro - 2022-10-21 at 03 26 20](https://user-images.githubusercontent.com/54851623/197097279-cbdfe44d-12c2-4511-a1b6-010c38f83a65.png)
+- 2022-10-21 at 03 26 12](https://user-images.githubusercontent.com/54851623/197097239-6f4a2b21-bded-439c-8945-92f705b1cb24.png)
+
+
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file. -->
 
